@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Your Site Title')</title>
+    <title>@yield('title', 'LI dash')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,7 +14,7 @@
 {{-- top nav bar --}}
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('home', ['company_id'=>3]) }}">LI Dash</a>
+        <a class="navbar-brand" href="{{ route('students_per_semester_per_company', ['company_id'=>1, 'semester_id'=>0]) }}">LI Dash</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,16 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home', ['company_id'=>3]) }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link active" aria-current="page" href="{{ route('students_per_semester_per_company', ['company_id'=>1, 'semester_id'=>0]) }}">Home</a>
                 </li>
             </ul>
         </div>

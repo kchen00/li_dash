@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class SemesterController extends Controller
 {
+    public static function get_all_semester() {
+        return Semester::all();
+    }
+    
     /**
      * Display a listing of the resource.
      */
