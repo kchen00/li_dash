@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('students_per_semester_per_company', ['company_id' => 3]);
+    return redirect()->route('students_per_semester_per_company', ['company_id' => 3, 'semester_id' => 0]);
 });
 
 // company page
 // show number of students per semester according to the company
-Route::get("/company_id={company_id}/semester_id={semester_id}", function(int $company_id, int $semester_id=0){
+Route::get("/company_id={company_id}/semester_id={semester_id?}", function(int $company_id, int $semester_id=0){
     // get the selected company
     $company = Company::find($company_id);
     $semester = null;

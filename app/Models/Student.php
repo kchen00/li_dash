@@ -24,6 +24,6 @@ class Student extends Model
     // reverse relation to semester
     public function semester(): BelongsTo
     {
-        return $this->belongsTo(semester::class);
+        return $this->belongsTo(Semester::class);
     }
 }

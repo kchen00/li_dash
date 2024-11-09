@@ -9,11 +9,12 @@
         <div class="row justify-content-between align-items-center">
             <div class="col-auto">
                 <h1>
-                    Top {{ count($top_company) }} hiring companies for 
-                    @if(is_null($selected_semester))
+                    Top {{ count($top_company) }} hiring companies for
+                    @if (is_null($selected_semester))
                         ALL SEMESTERS
-                    @else 
-                        SEM {{ $selected_semester->semester_number }} {{ $selected_semester->start_year }}/{{ $selected_semester->end_year }}
+                    @else
+                        SEM {{ $selected_semester->semester_number }}
+                        {{ $selected_semester->start_year }}/{{ $selected_semester->end_year }}
                     @endif
                 </h1>
             </div>
@@ -23,9 +24,13 @@
                     Select semester
                 </button>
                 <ul class="dropdown-menu">
-                    <a class="dropdown-item" href="/company_id={{ $selected_company->id }}/semester_id=0">ALL SEMESTERS</a>
+                    <a class="dropdown-item"
+                        href="{{ route('students_per_semester_per_company', ['company_id' => $selected_company->id, 'semester_id' => 0]) }}">ALL
+                        SEMESTERS</a>
                     @foreach ($semesters as $semester)
-                        <a class="dropdown-item" href="/company_id={{ $selected_company->id }}/semester_id={{ $semester->id }}">SEM {{ $semester->semester_number }}
+                        <a class="dropdown-item"
+                            href="{{ route('students_per_semester_per_company', ['company_id' => $selected_company->id, 'semester_id' => $semester->id]) }}">SEM
+                            {{ $semester->semester_number }}
                             {{ $semester->start_year }}/{{ $semester->end_year }}</a>
                     @endforeach
                 </ul>
@@ -35,7 +40,8 @@
             @foreach ($top_company as $top)
                 <div class="col-auto btn btn-lg btn-outline-info btn-border-5 rounded m-2 text-center"
                     title="Click to visit this company">
-                    <a href="/company_id={{ $top->id }}/semester_id=@if(is_null($selected_semester)){{ 0 }}@else{{ $selected_semester->id }}@endif" class="text-decoration-none text-white">
+                    <a href="{{ route('students_per_semester_per_company', ['company_id' => $top->id, 'semester_id' => $selected_semester ? $selected_semester->id : 0]) }}"
+                        class="text-decoration-none text-white">
                         <p class="fs-5 fw-bold">{{ $top->company_name }}</p>
                         <p class="fs-1">{{ $top->students_count }}</p>
                     </a>
@@ -57,7 +63,8 @@
                 <ul class="dropdown-menu">
                     @foreach ($companies as $company)
                         <li>
-                            <a class="dropdown-item" href="{{ route('students_per_semester_per_company', ['company_id' => $company->id, 'semester_id'=>0]) }}">
+                            <a class="dropdown-item"
+                                href="{{ route('students_per_semester_per_company', ['company_id' => $company->id, 'semester_id' => 0]) }}">
                                 {{ $company->company_name }} ({{ count($company->students) }})
                             </a>
                         </li>
