@@ -52,4 +52,5 @@ Route::post("/add_data", [FileController::class, "uploadPost"])->name("uploadPos
 // route to preview the data on table
 Route::get("/preview_data", [FileController::class, "previewData"])->name("previewData");
 
-Route::get("/companies", [CompanyController::class, 'get_all_companies'])->name('companies');
+Route::get("/companies", [CompanyController::class, 'getAllCompanies'])->name('companies');
+Route::get("/companies/{id}", [CompanyController::class, 'getCompanyById'])->name('companies.getById');
