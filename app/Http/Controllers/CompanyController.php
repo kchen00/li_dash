@@ -33,7 +33,11 @@ class CompanyController extends Controller
     public function getCompanyById(int $companyId)
     {
         $company = Company::find($companyId);
-        return view('company.company', ["company" => $company]);
+        return view('company.company', [
+            "company" => $company,
+            "hiredStudents" => $this->companyDAO->getHiredStudents($companyId),
+            "hiringByYear" => $this->companyDAO->getHiringCountByYear($companyId)
+        ]);
     }
 
     // get the companies with top hiring
