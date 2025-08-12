@@ -8,6 +8,7 @@ use App\Models\Semester;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\Cast\Array_;
 
 Route::get('/', function () {
     return redirect()->route('students_per_semester_per_company', ['company_id' => 3, 'semester_id' => 0]);
@@ -50,3 +51,5 @@ Route::post("/add_data", [FileController::class, "uploadPost"])->name("uploadPos
 
 // route to preview the data on table
 Route::get("/preview_data", [FileController::class, "previewData"])->name("previewData");
+
+Route::get("/companies", [CompanyController::class, 'get_all_companies'])->name('companies');
