@@ -8,22 +8,32 @@ use App\Models\Student;
 use Database\Seeders\StudentSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use App\DAOs\CompanyDAO;
 
 class CompanyController extends Controller
 {
-    // return all the companies
-    public function get_all_companies(Request $request)
+    protected $companyDAO;
+    public function __construct(CompanyDAO $companyDAO)
     {
-        $query = Company::query();
+        $this->companyDAO = $companyDAO;
+    }
 
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where('company_name', 'like', '%' . $search . '%');
-        }
+    // return all the companies
+    public function getAllCompanies(Request $request)
+    {
+        $search = $request->input('search');
+        $companies = $this->companyDAO->getAllPaginated($search, 20);
 
-        $companies = $query->paginate(20);
+        // Append search query to pagination links
+        $companies->appends(['search' => $search]);
 
-        return view('company', compact('companies'));
+        return view('company.company-listing', compact('companies'));
+    }
+
+    public function getCompanyById(int $companyId)
+    {
+        $company = Company::find($companyId);
+        return view('company.company', ["company" => $company]);
     }
 
     // get the companies with top hiring
