@@ -34,7 +34,9 @@
                                                 {{ ($semesters->currentPage() - 1) * $semesters->perPage() + $loop->iteration }}
                                             </th>
                                             <td>
-                                                Semester {{ $semester->semester_number == 1 ? "I" : "II" }} Academic Session ({{ $semester->start_year }}/{{ $semester->end_year }})
+                                                <a href="{{ route('semesters.getById', ['id' => $semester->id]) }}" class="text-decoration-none">
+                                                    Semester {{ $semester->semester_number == 1 ? "I" : "II" }} Academic Session ({{ $semester->start_year }}/{{ $semester->end_year }})
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
