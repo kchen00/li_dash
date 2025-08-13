@@ -31,6 +31,10 @@
                         <a class="nav-link @if (Route::is('companies')) active @endif" aria-current="page"
                             href="{{ route('companies') }}">Companies</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (Route::is('semesters')) active @endif" aria-current="page"
+                            href="{{ route('semesters') }}">Semesters</a>
+                    </li>
                 </ul>
 
         </div>

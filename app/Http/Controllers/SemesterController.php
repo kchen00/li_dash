@@ -7,63 +7,18 @@ use Illuminate\Http\Request;
 
 class SemesterController extends Controller
 {
-    public static function get_all_semester() {
-        return Semester::all();
-    }
-    
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public static function getAllSemester(Request $request)
     {
-        //
-    }
+        $query = Semester::query();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if ($search = $request->input('search')) {
+            $query->where('semester_number', 'like', "%{$search}%")
+                ->orWhere('start_year', 'like', "%{$search}%")
+                ->orWhere('end_year', 'like', "%{$search}%");
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $semesters = $query->orderBy('start_year', 'desc')->paginate(10);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Semester $semester)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Semester $semester)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Semester $semester)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Semester $semester)
-    {
-        //
+        return view('semester.semester-listing', ['semesters' => $semesters]);
     }
 }
