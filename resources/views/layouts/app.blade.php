@@ -15,7 +15,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand"
-            href="{{ route('students_per_semester_per_company', ['company_id' => 1, 'semester_id' => 0]) }}">LI Dash</a>
+            href="{{ route('home') }}">LI Dash</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,8 +24,8 @@
             <ul class="navbar-nav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link @if (Route::is('students_per_semester_per_company')) active @endif" aria-current="page"
-                            href="{{ route('students_per_semester_per_company', ['company_id' => 1, 'semester_id' => 0]) }}">Home</a>
+                        <a class="nav-link @if (Route::is('home')) active @endif" aria-current="page"
+                            href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link @if (Route::is('companies')) active @endif" aria-current="page"
