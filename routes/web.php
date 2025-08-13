@@ -24,3 +24,4 @@ Route::get("/preview_data", [FileController::class, "previewData"])->name("previ
 
 Route::get("/companies", [CompanyController::class, 'getAllCompanies'])->name('companies');
 Route::get("/companies/{id}", [CompanyController::class, 'getCompanyById'])->name('companies.getById');
+Route::get("/semesters", [SemesterController::class, 'getAllSemester'])->name('semesters');
