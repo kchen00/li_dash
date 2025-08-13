@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\DAOs\CompanyDAO;
 use App\Models\Semester;
+use App\Http\Services\CompanyService;
 
 class InternshipController extends Controller
 {
-    protected $companyDAO;
-    public function __construct(CompanyDAO $companyDAO)
+    protected $companyService;
+    public function __construct(CompAnyService $companyService)
     {
-        $this->companyDAO = $companyDAO;
+        $this->companyService = $companyService;
     }
 
     public function index()
     {
-        $topHiringCompany = $this->companyDAO->getTopHiringCompanies();
+        $topHiringCompany = $this->companyService->getTopHiringCompanies();
         $semester = Semester::find(0);
         return view("home", [
             "selected_semester" => $semester,

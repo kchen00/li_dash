@@ -4,27 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Semester;
-use App\Models\Student;
-use Database\Seeders\StudentSeeder;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use App\DAOs\CompanyDAO;
+use App\Http\Services\CompanyService;
 
 class CompanyController extends Controller
 {
-    protected $companyDAO;
-    public function __construct(CompanyDAO $companyDAO)
+    protected $companyService;
+    public function __construct(CompanyService $companyService)
     {
-        $this->companyDAO = $companyDAO;
+        $this->companyService = $companyService;
     }
 
-    // return all the companies
     public function getAllCompanies(Request $request)
     {
         $search = $request->input('search');
-        $companies = $this->companyDAO->getAllPaginated($search, 20);
+        $companies = $this->companyService->getPaginatedCompanies($search, 20);
 
-        // Append search query to pagination links
         $companies->appends(['search' => $search]);
 
         return view('company.company-listing', compact('companies'));
@@ -33,10 +28,16 @@ class CompanyController extends Controller
     public function getCompanyById(int $companyId)
     {
         $company = Company::find($companyId);
+        $hiredStudents =  $this->companyService->getHiredStudentsByCompany($companyId);
+        $hiringByYear = $hiredStudents
+            ->load('semester') // eager load semester relation to avoid N+1 queries
+            ->groupBy(fn($student) => $student->semester->start_year)
+            ->map(fn($group) => $group->count());
+
         return view('company.company', [
             "company" => $company,
-            "hiredStudents" => $this->companyDAO->getHiredStudents($companyId),
-            "hiringByYear" => $this->companyDAO->getHiringCountByYear($companyId)
+            "hiredStudents" => $hiredStudents,
+            "hiringByYear" => $hiringByYear
         ]);
     }
 

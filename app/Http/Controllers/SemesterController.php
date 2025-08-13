@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Semester;
 use Illuminate\Http\Request;
-use App\DAOs\CompanyDAO;
+use App\Http\Services\CompanyService;
 
 class SemesterController extends Controller
 {
-    protected $companyDAO;
-    public function __construct(CompanyDAO $companyDAO)
+    protected $companySevice;
+    public function __construct(CompanyService $companySevice)
     {
-        $this->companyDAO = $companyDAO;
+        $this->companySevice = $companySevice;
     }
 
     public static function getAllSemester(Request $request)
@@ -35,7 +35,7 @@ class SemesterController extends Controller
 
         return view("semester.semester", [
             "semester" => $semester,
-            "top_company" => $this->companyDAO->getTopHiringCompanies($semester->start_year)
+            "top_company" => $this->companySevice->getTopHiringCompanies($semester->start_year)
         ]);
     }
 }
