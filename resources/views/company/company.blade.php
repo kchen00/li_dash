@@ -60,9 +60,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const hiringData = @json($hiringByYear);
-
-        const labels = hiringData.map(item => item.year);
-        const data = hiringData.map(item => item.students);
+        const labels = Object.keys(hiringData);
+        const data = Object.values(hiringData);
 
         const ctx = document.getElementById('hiringChart').getContext('2d');
         new Chart(ctx, {
@@ -72,7 +71,7 @@
                 datasets: [{
                     label: 'Hires per Year',
                     data: data,
-                    backgroundColor: ["yellow"]
+                    backgroundColor: "yellow"
                 }]
             },
             options: {
@@ -80,7 +79,8 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        precision: 0 // if you want integer ticks
                     }
                 },
                 plugins: {
@@ -89,10 +89,11 @@
                     },
                     title: {
                         display: true,
-                        text: 'Number of student per semester'
+                        text: 'Number of students hired per year'
                     }
                 }
             }
         });
     </script>
+
 @endpush
