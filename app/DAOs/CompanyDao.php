@@ -44,4 +44,20 @@ class CompanyDAO
     {
         return Company::find($id)->students;
     }
+
+    public function getTopHiringCompanies(?int $year = null, int $limit = 10)
+    {
+        $query = Company::withCount(['students' => function ($q) use ($year) {
+            if ($year) {
+                $q->whereHas('semester', function ($semesterQuery) use ($year) {
+                    $semesterQuery->where('start_year', $year)
+                                ->orWhere('end_year', $year);
+                });
+            }
+        }]);
+
+        return $query->orderByDesc('students_count')
+                    ->take($limit)
+                    ->get();
+    }
 }
