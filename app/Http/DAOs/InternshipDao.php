@@ -2,7 +2,6 @@
 
 namespace App\Http\DAOs;
 
-use App\Models\Company;
 use Illuminate\Support\Facades\DB;
 
 class InternshipDao
@@ -22,5 +21,17 @@ class InternshipDao
             ->pluck('total_internships', 'semester_label');
 
         return $internshipsPerSemester;
+    }
+
+    public function getTopHiringCompaniesBySemester($semesterId)
+    {
+        return DB::table('students')
+            ->join('companies', 'students.company_id', '=', 'companies.id')
+            ->where('students.semester_id', $semesterId)
+            ->select('companies.id', 'companies.company_name', DB::raw('count(*) as students_count'))
+            ->groupBy('companies.id', 'companies.company_name')
+            ->orderByDesc('students_count')
+            ->limit(10)
+            ->get();
     }
 }
