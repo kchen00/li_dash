@@ -13,15 +13,28 @@ class UploadService
     private $studentId = "STUDENT ID";
 
 
-    public function handleUpload(array $rows): ?MessageBag
+    public function handleUpload(array $rows, int $semesterId): ?MessageBag
     {
         $errors = new MessageBag();
 
+        // Remove BOM and invisible chars from header and rows
+        $clean = function($value) {
+            // Remove BOM (UTF-8 BOM: \xEF\xBB\xBF) and other invisible chars
+            return preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value);
+        };
+
+        // Clean header
         $header = array_shift($rows);
+        $header = array_map($clean, $header);
+
+        // Clean each row
+        $rows = array_map(function($row) use ($clean) {
+            return array_map($clean, $row);
+        }, $rows);
 
         if (!$this->validateCsvHeader($header)) {
             $errors->add('error', 'Invalid CSV header. Check the required headers: Student ID, Student Name, Company Name.');
-            return $errors; // early return, or continue collecting all errors
+            return $errors;
         }
 
         if (!$this->validateCsvRow($rows, $header)) {
@@ -29,7 +42,11 @@ class UploadService
             return $errors;
         }
 
-        $studentIds = array_column($rows, 'Student ID');
+        $studentIdIndex = array_search('Student ID', $header);
+        $studentIds = array_map(function($row) use ($studentIdIndex) {
+            return $row[$studentIdIndex] ?? '';
+        }, $rows);
+
         if (!$this->validateStudentIds($studentIds)) {
             $errors->add('error', 'Duplicate Student IDs found in the CSV.');
             return $errors;
@@ -37,7 +54,8 @@ class UploadService
 
         $data = $this->readCsvFile($rows, $header);
         $this->createCompanies($data);
-        $this->createStudents($data, 1);
+        $this->createStudents($data, $semesterId);
+
         return null; // no errors
     }
 
@@ -109,7 +127,7 @@ class UploadService
     private function createStudents(array $rows, int $semesterId)
     {
         $existingStudentIds = Student::pluck('student_id')
-            ->map(fn($id) => strtolower(trim($id)))
+            ->map(fn($id) => strtoupper(trim($id)))
             ->all();
 
         $companies = Company::pluck('id', 'company_name')
@@ -118,8 +136,8 @@ class UploadService
 
         $studentsToInsert = collect($rows)
             ->map(function ($row) use ($companies, $existingStudentIds, $semesterId) {
-                $studentId = strtolower(trim($row[$this->studentId] ?? ''));
-                $studentName = trim($row[$this->studentName] ?? '');
+                $studentId = strtoupper(trim($row[$this->studentId] ?? ''));
+                $studentName = ucwords(strtolower(trim($row[$this->studentName] ?? '')));
                 $companyKey = strtolower(trim($row[$this->companyName] ?? ''));
 
                 // Validation
