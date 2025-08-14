@@ -22,7 +22,6 @@ class UploadController extends Controller
     /* TODO
         save data to database
         add upload path to gitignore
-        create companies when csv is uploaded
         create students when csv is uploaded
         create semesters when csv is uploaded
     */
@@ -39,9 +38,6 @@ class UploadController extends Controller
         if ($errors) {
             return back()->withErrors($errors)->withInput();
         }
-
-        $header = array_shift($rows);
-        $data = $this->uploadService->readCsvFile($rows, $header);
 
         return back()
             ->with('success', 'CSV file uploaded and read successfully.');
