@@ -7,7 +7,7 @@
 
             <!-- Company Title -->
             <div class="mb-4 border-bottom pb-2 text-center">
-                <h2 class="fw-bold">{{ $company->company_name }}</h2>
+                <h2 class="fw-bold">{{ $company->name }}</h2>
             </div>
 
             <!-- Historic Hiring Data -->

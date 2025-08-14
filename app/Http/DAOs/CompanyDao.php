@@ -21,7 +21,7 @@ class CompanyDAO
         $query = Company::query();
 
         if ($search) {
-            $query->where('company_name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', '%' . $search . '%');
         }
 
         return $query->paginate($perPage);
@@ -29,11 +29,11 @@ class CompanyDAO
 
     public function getHiringCountByYear(?int $year = null)
     {
-        $query = Company::select('companies.id', 'companies.company_name')
+        $query = Company::select('companies.id', 'companies.name')
             ->join('students', 'students.company_id', '=', 'companies.id')
             ->join('semesters', 'students.semester_id', '=', 'semesters.id')
-            ->selectRaw('companies.id, companies.company_name, COUNT(students.id) as students_count')
-            ->groupBy('companies.id', 'companies.company_name');
+            ->selectRaw('companies.id, companies.name, COUNT(students.id) as students_count')
+            ->groupBy('companies.id', 'companies.name');
 
         if ($year) {
             $query->where(function ($q) use ($year) {

@@ -107,7 +107,7 @@ class UploadService
             ->unique()
             ->mapWithKeys(fn($name) => [strtolower(trim($name)) => trim($name)]);
 
-        $existing = Company::pluck('company_name')
+        $existing = Company::pluck('name')
             ->map(fn($name) => strtolower(trim($name)))
             ->toArray();
 
@@ -115,7 +115,7 @@ class UploadService
             ->except($existing)
             ->values()
             ->map(fn($name) => [
-                'company_name' => $name,
+                'name' => $name,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -130,7 +130,7 @@ class UploadService
             ->map(fn($id) => strtoupper(trim($id)))
             ->all();
 
-        $companies = Company::pluck('id', 'company_name')
+        $companies = Company::pluck('id', 'name')
             ->mapWithKeys(fn($id, $name) => [strtolower(trim($name)) => $id])
             ->all();
 

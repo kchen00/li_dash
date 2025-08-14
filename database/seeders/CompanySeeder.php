@@ -25,7 +25,7 @@ class CompanySeeder extends Seeder
             // Read each row of the CSV
             while (($row = fgetcsv($handle, 1000, ',')) !== false) {
                 Company::create([
-                    'company_name' => $row[0]
+                    'name' => $row[0]
                 ]);
             }
             fclose($handle);

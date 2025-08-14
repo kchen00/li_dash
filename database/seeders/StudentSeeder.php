@@ -34,7 +34,7 @@ class StudentSeeder extends Seeder
                             ->first();
 
                 // get the company object from db
-                $company = Company::where("company_name", $row[5])->first();
+                $company = Company::where("name", $row[5])->first();
 
                 // create the student object and store it at db
                 Student::create([

@@ -32,7 +32,7 @@
                         </th>
                         <td>
                             <a href="/companies/{{ $company->id }}" class="text-decoration-none">
-                                {{ $company->company_name }}
+                                {{ $company->name }}
                             </a>
                         </td>
                     </tr>

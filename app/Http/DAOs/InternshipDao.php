@@ -28,8 +28,8 @@ class InternshipDao
         return DB::table('students')
             ->join('companies', 'students.company_id', '=', 'companies.id')
             ->where('students.semester_id', $semesterId)
-            ->select('companies.id', 'companies.company_name', DB::raw('count(*) as students_count'))
-            ->groupBy('companies.id', 'companies.company_name')
+            ->select('companies.id', 'companies.name', DB::raw('count(*) as students_count'))
+            ->groupBy('companies.id', 'companies.name')
             ->orderByDesc('students_count')
             ->limit(10)
             ->get();
