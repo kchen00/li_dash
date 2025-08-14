@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Http\DAOs\CompanyDAO;
 use App\Http\DAOs\InternshipDao;
 
 class InternshipService

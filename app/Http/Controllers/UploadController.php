@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\UploadService;
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
 {
+    private $uploadService;
+
+    public function __construct(UploadService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+    }   
+
     public function showUploadForm()
     {
         return view('upload.form');
     }
 
     /* TODO
-        validate csv header 
-        preview data before saving
         save data to database
         add upload path to gitignore
-        
+        create companies when csv is uploaded
+        create students when csv is uploaded
+        create semesters when csv is uploaded
     */
     public function handleUpload(Request $request)
     {
@@ -25,17 +33,17 @@ class UploadController extends Controller
         ]);
 
         $path = $request->file('csv_file')->getRealPath();
-        $rows = array_map('str_getcsv', file($path));
+        $rows = array_map('str_getcsv', file($path, FILE_SKIP_EMPTY_LINES));
+        $errors = $this->uploadService->handleUpload($rows);
 
-        // Optionally: Use first row as headers
-        $header = array_shift($rows);
-
-        // Debug or process content
-        foreach ($rows as $row) {
-            // Example: dd($row);
-            // [0] => Company Name, [1] => Address, etc.
+        if ($errors) {
+            return back()->withErrors($errors)->withInput();
         }
 
-        return back()->with('success', 'CSV file uploaded and read successfully.');
+        $header = array_shift($rows);
+        $data = $this->uploadService->readCsvFile($rows, $header);
+
+        return back()
+            ->with('success', 'CSV file uploaded and read successfully.');
     }
 }
