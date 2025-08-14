@@ -63,7 +63,6 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        precision: 0 // if you want integer ticks
                     }
                 },
                 plugins: {

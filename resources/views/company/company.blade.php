@@ -72,10 +72,9 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const hiringData = @json($hiringByYear);
-    if(Object.keys(hiringData).length > 0) {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const hiringData = @json($hiringByYear);
         const labels = Object.keys(hiringData);
         const data = Object.values(hiringData);
 
@@ -87,10 +86,7 @@
                 datasets: [{
                     label: 'Hires per Year',
                     data: data,
-                    backgroundColor: 'yellow',
-                    borderColor: 'rgba(0, 0, 0, 0.6)',
-                    borderWidth: 1,
-                    borderRadius: 4
+                    backgroundColor: "yellow"
                 }]
             },
             options: {
@@ -99,24 +95,19 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1 }
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false
+                        position: 'top',
                     },
                     title: {
                         display: true,
-                        text: 'Number of Students Hired Per Year',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
+                        text: 'Number of students hired per year'
                     }
                 }
             }
         });
-    }
-</script>
+    </script>
+
 @endpush
