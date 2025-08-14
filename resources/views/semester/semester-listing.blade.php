@@ -6,16 +6,35 @@
     {{-- Page Title --}}
     <h2 class="mb-4">Semester Listing</h2>
 
-    {{-- Search Form --}}
-    <form action="{{ route('semesters') }}" method="GET" class="d-flex w-50 mb-4">
-        <input type="text" name="search" class="form-control me-2 rounded-pill"
-               placeholder="Search semesters..." value="{{ request('search') }}">
-        <button type="submit" class="btn btn-light rounded-pill">
-            <i class="fas fa-search me-1"></i> Search
-        </button>
-    </form>
+    {{-- Search Form and "Add New Semester" Button --}}
+    <div class="row align-items-center mb-4">
+        {{-- Search Form --}}
+        <div class="col-md-6">
+            <form action="{{ route('semesters') }}" method="GET" class="d-flex">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control me-2 rounded-pill"
+                    placeholder="Search semesters..."
+                    value="{{ request('search') }}"
+                    aria-label="Search semesters"
+                >
+                <button type="submit" class="btn btn-light rounded-pill">
+                    <i class="fas fa-search me-1"></i> Search
+                </button>
+            </form>
+        </div>
 
-    {{-- Companies Table --}}
+        {{-- Add New Semester Button --}}
+        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <a href="{{ route('semesters.create') }}" class="btn btn-primary rounded-pill">
+                <i class="fas fa-plus me-1"></i> Add New Semester
+            </a>
+        </div>
+    </div>
+
+
+    {{-- Semesters Table --}}
     <div class="table-responsive">
         <table class="table table-striped align-middle">
             <thead>

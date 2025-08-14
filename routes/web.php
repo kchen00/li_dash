@@ -2,27 +2,21 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InternshipController;
-use App\Http\Controllers\FileController;
 use App\Http\Controllers\SemesterController;
-use App\Models\Company;
-use App\Models\Semester;
-use App\Models\Student;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use PhpParser\Node\Expr\Cast\Array_;
+use App\Http\Controllers\UploadController;
 
 Route::get('/',[InternshipController::class, 'index'])->name("home");;
 
-// route to show add new data page
-Route::get("/add_data", [FileController::class, "upload"])->name("upload");
-
-// route to upload data to server
-Route::post("/add_data", [FileController::class, "uploadPost"])->name("uploadPost");
-
-// route to preview the data on table
-Route::get("/preview_data", [FileController::class, "previewData"])->name("previewData");
+Route::get('/upload', [UploadController::class, 'showUploadForm'])->name('upload.form');
+Route::post('/upload', [UploadController::class, 'handleUpload'])->name('upload');
 
 Route::get("/companies", [CompanyController::class, 'getAllCompanies'])->name('companies');
 Route::get("/companies/{id}", [CompanyController::class, 'getCompanyById'])->name('companies.getById');
+
 Route::get("/semesters", [SemesterController::class, 'getAllSemester'])->name('semesters');
-Route::get("/semesters/{id}", [SemesterController::class, 'getSemesterById'])->name('semesters.getById');
+Route::get("/semesters/{id}", [SemesterController::class, 'getSemesterById'])
+    ->where('id', '[0-9]+')
+    ->name('semesters.getById');
+Route::get("/semesters/create", [SemesterController::class, 'createSemesterForm'])->name('semesters.create');
+Route::post("/semesters", [SemesterController::class, 'createSemester'])->name('semesters.store');

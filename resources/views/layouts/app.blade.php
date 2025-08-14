@@ -35,6 +35,10 @@
                         <a class="nav-link @if (Route::is('semesters')) active @endif" aria-current="page"
                             href="{{ route('semesters') }}">Semesters</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (Route::is('upload')) active @endif" aria-current="page"
+                            href="{{ route('upload') }}">Upload data</a>
+                    </li>
                 </ul>
 
         </div>

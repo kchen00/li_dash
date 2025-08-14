@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Http\DAOs\CompanyDAO;
 use App\Http\DAOs\InternshipDao;
 
 class InternshipService
@@ -20,5 +19,13 @@ class InternshipService
     public function getHiringPerSemester()
     {
         return $this->internshipDAO->getTotalInternshipsPerSemester();    
+    }
+
+    /**
+     * Retrieves the top hiring companies for a given semester.
+     */
+    public function getTopHiringCompaniesBySemester($semesterId)
+    {
+        return $this->internshipDAO->getTopHiringCompaniesBySemester($semesterId);
     }
 }
